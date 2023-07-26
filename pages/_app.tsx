@@ -1,8 +1,9 @@
 
 import { NextUIProvider, createTheme } from '@nextui-org/react';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import useDarkMode from 'use-dark-mode';
+
 
 
 const lightTheme = createTheme({
@@ -22,13 +23,23 @@ const darkTheme = createTheme({
 
 function MyApp({ Component, pageProps }: AppProps) {
 
-  const darkMode = useDarkMode();
+ 
 
 
   return (
-    <NextUIProvider theme={darkMode.value ? darkTheme : lightTheme}>
-      <Component {...pageProps} />
-    </NextUIProvider>
+    <NextThemesProvider
+    defaultTheme="system"
+    attribute="class"
+    value={{
+      light: lightTheme.className,
+      dark: darkTheme.className
+    }}
+    >
+      <NextUIProvider>
+        <Component {...pageProps} />
+      </NextUIProvider>
+    </NextThemesProvider>
+      
   )
 }
 

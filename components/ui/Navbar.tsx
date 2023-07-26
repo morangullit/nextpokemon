@@ -1,18 +1,21 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Spacer, Switch, Text, useTheme } from '@nextui-org/react';
-import useDarkMode from 'use-dark-mode';
+import { Spacer, Switch, Text, theme, useTheme } from '@nextui-org/react';
+import { useTheme as useNextTheme } from 'next-themes'
 
 
 export const Navbar = () => {
 
-  const { theme } = useTheme();
-  const darkMode = useDarkMode(false);
+  const { setTheme } = useNextTheme();
+  const { isDark, type } = useTheme();
+
+  const textColor = isDark ? theme?.colors.white.value : theme?.colors.black.value;
+  const [backgroundColor, setBackgroundColor] = useState(theme?.colors.gray900.value);
 
   useEffect(() => {
-    localStorage.setItem('darkMode', darkMode.value.toString());
-  }, [darkMode.value]);
+    setBackgroundColor(isDark ? theme?.colors.gray900.value : theme?.colors.background.value);
+  }, [isDark]);
 
   return (
 
@@ -24,7 +27,7 @@ export const Navbar = () => {
           alignItems: 'center',
           justifyContent: 'flex-start',
           padding: '0x 20px',
-          backgroundColor: theme?.colors.gray200.value
+          backgroundColor
       }}>
         <Link href='/' passHref>
           <Image 
@@ -35,23 +38,21 @@ export const Navbar = () => {
           />
         </Link>
         <Link href='/' passHref>
-          <Text h2>P</Text>
+          <Text h2 style={{ color: textColor }}>P</Text>
         </Link>
         <Link href='/' passHref>
-          <Text h3>okémon</Text>
+          <Text h3 style={{ color: textColor }}>okémon</Text>
         </Link>
         <Spacer css={{flex: 500}}/>
         <Link href='/favorites' passHref>
-          <Text h3>Favoritos</Text>
+          <Text h3 style={{ color: textColor }}>Favoritos</Text>
         </Link>
         <Spacer css={{ flex: 1 }}/>
 
-        <div style={{ fontSize: '18px', paddingRight:'10px' }}>{darkMode.value ? 'Dark Mode' : 'Light Mode'}</div>
         <div>
           <Switch
-            bordered size='md'
-            checked={darkMode.value}
-            onChange={() => darkMode.toggle()}
+            checked={isDark}
+            onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
           />
         </div>
       </div>
