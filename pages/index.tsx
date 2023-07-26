@@ -14,7 +14,7 @@ interface Props {
 
 const HomePage: NextPage<Props> = ({pokemons}) => {
 
-  const itemsPerPage = 10;
+  const itemsPerPage = 18;
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (page: number) => {

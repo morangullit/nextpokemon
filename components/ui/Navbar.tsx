@@ -14,7 +14,7 @@ export const Navbar = () => {
   const [backgroundColor, setBackgroundColor] = useState(theme?.colors.gray900.value);
 
   useEffect(() => {
-    setBackgroundColor(isDark ? theme?.colors.gray900.value : theme?.colors.background.value);
+    setBackgroundColor(isDark ? theme?.colors.gray900.value : theme?.colors.gray300.value);
   }, [isDark]);
 
   return (
